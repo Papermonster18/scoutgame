@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>童軍冒險大亨 - 數位點數管理</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 100vh;
+        }
+        .title-bar {
+            width: 100%;
+            background-color: #00008B; /* 深藍色 */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .player-box {
+            width: 33.33%; /* 每行3人，總共6等份 */
+            height: 40%; /* 調整高度，留空間給標題與銀行 */
+            box-sizing: border-box;
+            padding: 10px;
+            border: 2px solid #00ff00; /* 綠色邊框 */
+            text-align: center;
+        }
+        .bank-box {
+            width: 100%;
+            background-color: #4B5320; /* 軍綠色 */
+            padding: 10px;
+            text-align: center;
+            border-top: 2px solid #00ff00;
+        }
+        select, input, button {
+            margin: 5px 0;
+            padding: 5px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #00ff00;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <!-- 標題列 -->
+    <div class="title-bar">童軍冒險銀行</div>
+
+    <!-- 玩家1 -->
+    <div class="player-box" id="player1-box">
+        <h2>玩家1</h2>
+        <p>點數: <span id="player1">1500</span></p>
+        <select id="player1-target">
+            <option value="player2">玩家2</option>
+            <option value="player3">玩家3</option>
+            <option value="player4">玩家4</option>
+            <option value="player5">玩家5</option>
+            <option value="player6">玩家6</option>
+            <option value="bank">銀行</option>
+        </select><br>
+        <input type="number" id="player1-amount" min="1" placeholder="金額">
+        <button onclick="transfer('player1')">轉帳</button><br>
+        <button onclick="undo('player1')">還原</button>
+        <button onclick="passGo('player1')">通過起點</button>
+        <button onclick="reset('player1')">重新開始</button>
+    </div>
+
+    <!-- 玩家2 -->
+    <div class="player-box" id="player2-box">
+        <h2>玩家2</h2>
+        <p>點數: <span id="player2">1500</span></p>
+        <select id="player2-target">
+            <option value="player1">玩家1</option>
+            <option value="player3">玩家3</option>
+            <option value="player4">玩家4</option>
+            <option value="player5">玩家5</option>
+            <option value="player6">玩家6</option>
+            <option value="bank">銀行</option>
+        </select><br>
+        <input type="number" id="player2-amount" min="1" placeholder="金額">
+        <button onclick="transfer('player2')">轉帳</button><br>
+        <button onclick="undo('player2')">還原</button>
+        <button onclick="passGo('player2')">通過起點</button>
+        <button onclick="reset('player2')">重新開始</button>
+    </div>
+
+    <!-- 玩家3 -->
+    <div class="player-box" id="player3-box">
+        <h2>玩家3</h2>
+        <p>點數: <span id="player3">1500</span></p>
+        <select id="player3-target">
+            <option value="player1">玩家1</option>
+            <option value="player2">玩家2</option>
+            <option value="player4">玩家4</option>
+            <option value="player5">玩家5</option>
+            <option value="player6">玩家6</option>
+            <option value="bank">銀行</option>
+        </select><br>
+        <input type="number" id="player3-amount" min="1" placeholder="金額">
+        <button onclick="transfer('player3')">轉帳</button><br>
+        <button onclick="undo('player3')">還原</button>
+        <button onclick="passGo('player3')">通過起點</button>
+        <button onclick="reset('player3')">重新開始</button>
+    </div>
+
+    <!-- 玩家4 -->
+    <div class="player-box" id="player4-box">
+        <h2>玩家4</h2>
+        <p>點數: <span id="player4">1500</span></p>
+        <select id="player4-target">
+            <option value="player1">玩家1</option>
+            <option value="player2">玩家2</option>
+            <option value="player3">玩家3</option>
+            <option value="player5">玩家5</option>
+            <option value="player6">玩家6</option>
+            <option value="bank">銀行</option>
+        </select><br>
+        <input type="number" id="player4-amount" min="1" placeholder="金額">
+        <button onclick="transfer('player4')">轉帳</button><br>
+        <button onclick="undo('player4')">還原</button>
+        <button onclick="passGo('player4')">通過起點</button>
+        <button onclick="reset('player4')">重新開始</button>
+    </div>
+
+    <!-- 玩家5 -->
+    <div class="player-box" id="player5-box">
+        <h2>玩家5</h2>
+        <p>點數: <span id="player5">1500</span></p>
+        <select id="player5-target">
+            <option value="player1">玩家1</option>
+            <option value="player2">玩家2</option>
+            <option value="player3">玩家3</option>
+            <option value="player4">玩家4</option>
+            <option value="player6">玩家6</option>
+            <option value="bank">銀行</option>
+        </select><br>
+        <input type="number" id="player5-amount" min="1" placeholder="金額">
+        <button onclick="transfer('player5')">轉帳</button><br>
+        <button onclick="undo('player5')">還原</button>
+        <button onclick="passGo('player5')">通過起點</button>
+        <button onclick="reset('player5')">重新開始</button>
+    </div>
+
+    <!-- 玩家6 -->
+    <div class="player-box" id="player6-box">
+        <h2>玩家6</h2>
+        <p>點數: <span id="player6">1500</span></p>
+        <select id="player6-target">
+            <option value="player1">玩家1</option>
+            <option value="player2">玩家2</option>
+            <option value="player3">玩家3</option>
+            <option value="player4">玩家4</option>
+            <option value="player5">玩家5</option>
+            <option value="bank">銀行</option>
+        </select><br>
+        <input type="number" id="player6-amount" min="1" placeholder="金額">
+        <button onclick="transfer('player6')">轉帳</button><br>
+        <button onclick="undo('player6')">還原</button>
+        <button onclick="passGo('player6')">通過起點</button>
+        <button onclick="reset('player6')">重新開始</button>
+    </div>
+
+    <!-- 銀行 -->
+    <div class="bank-box" id="bank-box">
+        <h2>銀行</h2>
+        <p>點數: 無限</p>
+        <select id="bank-target">
+            <option value="player1">玩家1</option>
+            <option value="player2">玩家2</option>
+            <option value="player3">玩家3</option>
+            <option value="player4">玩家4</option>
+            <option value="player5">玩家5</option>
+            <option value="player6">玩家6</option>
+        </select><br>
+        <input type="number" id="bank-amount" min="1" placeholder="金額">
+        <button onclick="transfer('bank')">轉帳</button>
+    </div>
+
+    <script>
+        // 初始點數與銀行
+        let balances = {
+            player1: 1500,
+            player2: 1500,
+            player3: 1500,
+            player4: 1500,
+            player5: 1500,
+            player6: 1500,
+            bank: Infinity // 銀行點數無限
+        };
+
+        // 記錄上一筆交易
+        let lastTransaction = null;
+
+        // 轉帳功能
+        function transfer(from) {
+            let target = document.getElementById(`${from}-target`).value;
+            let amount = parseInt(document.getElementById(`${from}-amount`).value);
+
+            // 檢查輸入是否有效
+            if (isNaN(amount) || amount <= 0) {
+                alert("請輸入有效的金額！");
+                return;
+            }
+            if (balances[from] < amount && from !== "bank") {
+                alert("點數不足，無法轉帳！");
+                return;
+            }
+
+            // 記錄交易
+            lastTransaction = { from: from, to: target, amount: amount };
+
+            // 更新點數
+            if (from === "bank") {
+                balances[target] += amount; // 銀行轉給玩家
+            } else if (target === "bank") {
+                balances[from] -= amount; // 玩家轉給銀行
+            } else {
+                balances[from] -= amount; // 玩家間轉帳
+                balances[target] += amount;
+            }
+
+            // 更新顯示
+            if (from !== "bank") {
+                document.getElementById(from).innerText = balances[from];
+            }
+            if (target !== "bank") {
+                document.getElementById(target).innerText = balances[target];
+            }
+
+            // 清空輸入欄
+            document.getElementById(`${from}-amount`).value = "";
+        }
+
+        // 還原功能
+        function undo(player) {
+            if (!lastTransaction || (lastTransaction.from !== player && lastTransaction.to !== player)) {
+                alert("無可還原的交易，或你不是此交易的參與者！");
+                return;
+            }
+
+            let { from, to, amount } = lastTransaction;
+            if (from === "bank") {
+                balances[to] -= amount;
+            } else if (to === "bank") {
+                balances[from] += amount;
+            } else {
+                balances[from] += amount;
+                balances[to] -= amount;
+            }
+
+            // 更新顯示
+            if (from !== "bank") document.getElementById(from).innerText = balances[from];
+            if (to !== "bank") document.getElementById(to).innerText = balances[to];
+
+            lastTransaction = null; // 清空記錄
+        }
+
+        // 通過起點功能
+        function passGo(player) {
+            balances[player] += 200;
+            document.getElementById(player).innerText = balances[player];
+
+            // 記錄為銀行轉帳
+            lastTransaction = { from: "bank", to: player, amount: 200 };
+        }
+
+        // 重新開始功能
+        function reset(player) {
+            balances[player] = 1500;
+            document.getElementById(player).innerText = balances[player];
+        }
+    </script>
+</body>
+</html>
